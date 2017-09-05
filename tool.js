@@ -2,10 +2,20 @@ var fs = require("fs");
 var cp = require("child_process");
 var { isString, isNullOrUndefined } = require("util");
 
+// var args = require('ifun').getArgs();
+
 //提示
 var log = exports.log = function (...args) {
     console.log(...args);
 };
+
+//生成UUID
+exports.guid = function() {
+    function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
 
 //获取JSON
 exports.requireJson = function (file) {
