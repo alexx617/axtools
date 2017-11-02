@@ -10,8 +10,7 @@ module.exports = {
      */
 
     getUniqueArray: function (arr) {
-        var set = new Set(arr);
-        return Array.from(set);
+        return Array.from(new Set(arr))
     },
 
     /**
@@ -291,6 +290,41 @@ module.exports = {
         //将数据（符号、整数部分、小数部分）整体组合返回
         return sign + num + cents;
     },
+    
+    /*现金额大写转换*/
+    //upDigit(168752632)
+    //"人民币壹亿陆仟捌佰柒拾伍万贰仟陆佰叁拾贰元整"
+    //upDigit(1682)
+    //"人民币壹仟陆佰捌拾贰元整"
+    //upDigit(-1693)
+    //"欠人民币壹仟陆佰玖拾叁元整"
+    upDigit: function (n) {
+        var fraction = ['角', '分', '厘'];
+        var digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+        var unit = [
+            ['元', '万', '亿'],
+            ['', '拾', '佰', '仟']
+        ];
+        var head = n < 0 ? '欠人民币' : '人民币';
+        n = Math.abs(n);
+        var s = '';
+        for (var i = 0; i < fraction.length; i++) {
+            s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+        }
+        s = s || '整';
+        n = Math.floor(n);
+        for (var i = 0; i < unit[0].length && n > 0; i++) {
+            var p = '';
+            for (var j = 0; j < unit[1].length && n > 0; j++) {
+                p = digit[n % 10] + unit[1][j] + p;
+                n = Math.floor(n / 10);
+            }
+            //s = p.replace(/(零.)*零$/, '').replace(/^$/, '零')+ unit[0][i] + s; 
+            s = p + unit[0][i] + s;
+        }
+        return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');
+    },
+
 
 
     /******************************************************************************************/
@@ -308,6 +342,75 @@ module.exports = {
     deepCopyObj: function (obj) {
         return JSON.parse(JSON.stringify(obj));
     },
+
+    /*去除空格*/
+    //  type 1-所有空格  2-前后空格  3-前空格 4-后空格
+    trim: function (str, type = 1) {
+        switch (type) {
+            case 1:
+                return str.replace(/\s+/g, "");
+            case 2:
+                return str.replace(/(^\s*)|(\s*$)/g, "");
+            case 3:
+                return str.replace(/(^\s*)/g, "");
+            case 4:
+                return str.replace(/(\s*$)/g, "");
+            default:
+                return str;
+        }
+    },
+
+    /*type
+    1:首字母大写   
+    2：首页母小写
+    3：大小写转换
+    4：全部大写
+    5：全部小写
+     */
+    //changeCase('asdasd',1)
+    //Asdasd
+    changeCase: function (str, type = 1) {
+        function ToggleCase(str) {
+            var itemText = ""
+            str.split("").forEach(
+                function (item) {
+                    if (/^([a-z]+)/.test(item)) {
+                        itemText += item.toUpperCase();
+                    } else if (/^([A-Z]+)/.test(item)) {
+                        itemText += item.toLowerCase();
+                    } else {
+                        itemText += item;
+                    }
+                });
+            return itemText;
+        }
+
+        switch (type) {
+            case 1:
+                return str.replace(/^(\w)(\w+)/, function (v, v1, v2) {
+                    return v1.toUpperCase() + v2.toLowerCase();
+                });
+            case 2:
+                return str.replace(/^(\w)(\w+)/, function (v, v1, v2) {
+                    return v1.toLowerCase() + v2.toUpperCase();
+                });
+            case 3:
+                return ToggleCase(str);
+            case 4:
+                return str.toUpperCase();
+            case 5:
+                return str.toLowerCase();
+            default:
+                return str;
+        }
+    },
+
+    //字符串替换(字符串,要替换的字符,替换成什么)
+    replaceAll: function (str, AFindText, ARepText) {　　　
+        raRegExp = new RegExp(AFindText, "g");　　　
+        return str.replace(raRegExp, ARepText);
+    },
+
 
     /**
      * 生成指定位数的随机字符串，字符串的内容包括小数和小写字母。
@@ -340,7 +443,27 @@ module.exports = {
             res[name] = item.substring(pos + 1);
         });
         return res;
-    }
+    },
+
+    /**
+     * 返回当前浏览器是什么类型的浏览器
+     */
+    userBrowser: function () {
+        var browserName = navigator.userAgent.toLowerCase();
+        if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
+            console.log("IE");
+        } else if (/firefox/i.test(browserName)) {
+            console.log("Firefox");
+        } else if (/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName)) {
+            console.log("Chrome");
+        } else if (/opera/i.test(browserName)) {
+            console.log("Opera");
+        } else if (/webkit/i.test(browserName) && !(/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName))) {
+            console.log("Safari");
+        } else {
+            console.log("不知道");
+        }
+    },
 
 
 
