@@ -290,7 +290,7 @@ module.exports = {
         //将数据（符号、整数部分、小数部分）整体组合返回
         return sign + num + cents;
     },
-    
+
     /*现金额大写转换*/
     //upDigit(168752632)
     //"人民币壹亿陆仟捌佰柒拾伍万贰仟陆佰叁拾贰元整"
@@ -463,6 +463,39 @@ module.exports = {
         } else {
             console.log("不知道");
         }
+    },
+
+    // 循环出options的value和text
+    getOptions: function (json) {
+        if (Array.isArray(json)) {
+            return json.map(x => {
+                return {
+                    value: x,
+                    text: x
+                };
+            });
+        }
+        var list = [];
+        for (var key in json) {
+            list.push({
+                value: key,
+                text: json[key]
+            });
+        }
+        return list;
+    },
+
+
+    //每个值加上一个空白value
+    initUI: function (ui) {
+        Object.keys(ui.fileds).map(k => {
+            let item = ui.fileds[k];
+            item.value = item.value || '';
+            if (item.linkFiled) {
+                item.linkFiled.value = item.linkFiled.value || '';
+            }
+        });
+        return ui;
     },
 
 
