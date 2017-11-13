@@ -157,6 +157,40 @@ module.exports = {
     },
     /**
      * 将一段时长转换成友好格式，如：
+     * var str = friendlyDate('1311111119999'); //  6年前（括号里的字符串值为1970年距字符串值表示的时间的毫秒数）
+     * var str2 = friendlyDate('1503190042273'); // 1天前
+     * @param {Object} second
+     */
+    friendlyDate: function (time) {
+        var offset = +new Date - time;
+        var seconds = 1000,
+            minutes = seconds * 60,
+            hours = minutes * 60,
+            days = hours * 24,
+            months = days * 30,
+            years = months * 12;
+        var t;
+        if (offset >= years) {
+            t = parseInt(offset / years);
+            return t + '年前';
+        } else if (offset >= months) {
+            t = parseInt(offset / months)
+            return t + '个月前';
+        } else if (offset >= days) {
+            t = parseInt(offset / days);
+            return t + '天前';
+        } else if (offset >= hours) {
+            t = parseInt(offset / hours);
+            return t + '小时前';
+        } else if (offset >= minutes) {
+            t = parseInt(offset / minutes);
+            return t + '分钟前';
+        } else if (offset >= seconds) {
+            return '刚刚';
+        }
+    },
+    /**
+     * 将一段时长转换成友好格式，如：
      * 147->“2分27秒”
      * 1581->“26分21秒”
      * 15818->“4小时24分”
