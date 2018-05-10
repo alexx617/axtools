@@ -1,11 +1,30 @@
 {
-  "name": "axtool",
+  "name": "axtools",
   "version": "0.0.1",
   "description": "",
-  "main": "tool.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./build.js"
   },
-  "author": "alex",
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexx617/axtools.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexx617/axtools/issues"
+  },
+  "homepage": "https://github.com/alexx617/axtools#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "uglify-js": "^3.3.24"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
 }

@@ -7,6 +7,8 @@ class StorageFn {
     /*-----------------cookie---------------------*/
     /*设置cookie*/
     setCookie (name, value, day) {
+        console.log('=1323=2');
+        
         var setting = arguments[0];
         if (Object.prototype.toString.call(setting).slice(8, -1) === 'Object'){
             for (var i in setting) {
@@ -105,3 +107,5 @@ class StorageFn {
 
     
 }
+
+export var storage = new StorageFn();
