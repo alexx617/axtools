@@ -1,6 +1,30 @@
 module.exports = {
     //其他函数
 
+    //获取地址栏所有查询参数,解析成json对象
+    getQueryJson() {
+        let url = window.location.search;
+        let rep = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(rep);
+        let obj = {};
+        if (arr) {
+            arr.forEach = item => {
+                let tempArr = item.substring(1).split('=');
+                let key = decodeURIComponent(tempArr[0]);
+                let val = decodeURIComponent(tempArr[1]);
+                obj[key] = val;
+            }
+        }
+        return obj
+    },
+
+    //获取地址栏某一个查询参数
+    getQueryString(e) {
+        let t = new RegExp("(^|&)" + e + "=([^&]*)(&|$)");
+        let n = window.location.search.substr(1).match(t) || null
+        return n !== null ? decodeURIComponent(n[2]) : ''
+    },
+
     //生成UUID
     guid() {
         function S4() {
@@ -17,7 +41,7 @@ module.exports = {
      * @param {posLen} 光标位置处在 插入的值的哪个位置
      */
     setCursorPosition(dom, val, posLen) {
-        var cursorPosition = 0;
+        let cursorPosition = 0;
         if (dom.selectionStart) {
             cursorPosition = dom.selectionStart;
         }
