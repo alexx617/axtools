@@ -1,6 +1,7 @@
 module.exports = {
 
-    //数组操作
+    /********Array类**********************************************************************************/
+
 
     //数组去重
     getUniqueArray(arr) {
@@ -181,10 +182,9 @@ module.exports = {
         return arr1.slice(0, rank1);
     },
 
-    /******************************************************************************************/
 
+    /********String类**********************************************************************************/
 
-    //字符串
 
     //查找字符串
     //let strTest='sad44654blog5a1sd67as9dablog4s5d16zxc4sdweasjkblogwqepaskdkblogahseiuadbhjcibloguyeajzxkcabloguyiwezxc967'
@@ -329,7 +329,7 @@ module.exports = {
     },
 
 
-    /******************************************************************************************/
+    /********Object类**********************************************************************************/
 
     
     //深拷贝对象
@@ -369,6 +369,17 @@ module.exports = {
         }
     },
 
+    //截取Object.prototype.toString具体值
+    getType(a) {
+        var typeArray = Object.prototype.toString.call(a).split(" ");
+        return typeArray[1].slice(0, this.length-1);
+    },
+
+
+
+    /********Url类**********************************************************************************/
+
+    
     //获取url参数
     //getUrlPrmt('segmentfault.com/write?draftId=122000011938') //{draftId: "122000011938"}
     getUrlPrmt(url) {
@@ -381,6 +392,31 @@ module.exports = {
             res[name] = item.substring(pos + 1);
         });
         return res;
+    },
+
+
+    //获取地址栏所有查询参数,解析成json对象
+    getUrlPrmt() {
+        let url = window.location.search;
+        let rep = /[?&][^?&]+=[^?&]+/g;
+        let arr = url.match(rep);
+        let obj = {};
+        if (arr) {
+            arr.forEach = item => {
+                let tempArr = item.substring(1).split('=');
+                let key = decodeURIComponent(tempArr[0]);
+                let val = decodeURIComponent(tempArr[1]);
+                obj[key] = val;
+            }
+        }
+        return obj
+    },
+
+    //获取地址栏某一个查询参数
+    getQuery(name) {
+        let t = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        let n = window.location.search.substr(1).match(t) || null
+        return n !== null ? decodeURIComponent(n[2]) : ''
     },
 
 };

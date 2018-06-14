@@ -138,5 +138,9 @@ module.exports = {
             platform = 'other';
         }
         return platform;
-    }
+    },
+
+    isIphoneX () {
+        return /iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
+    },
 }
