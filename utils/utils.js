@@ -20,6 +20,18 @@ module.exports = {
         });
     },
 
+    //数组顺序打乱,优化打乱,乱得更均匀
+    upsetArr2(arr) {
+        let j,_item;
+        for (let i=0; i<arr.length; i++) {
+            j = Math.floor(Math.random() * i);
+            _item = arr[i];
+            arr[i] = arr[j];
+            arr[j] = _item;
+        }
+        return arr;
+    },
+
     //得到n1-n2下标的数组
     //getArrayNum([0,1,2,3,4,5,6,7,8,9],5,9)
     //result：[5, 6, 7, 8, 9]
@@ -50,7 +62,8 @@ module.exports = {
         if (!keys) {
             return arr
         }
-        let _keys = keys.split(','), newArrOne = {};
+        let _keys = keys.split(','),
+            newArrOne = {};
         //是否只是需要获取某一项的值
         if (_keys.length === 1) {
             for (let i = 0, len = arr.length; i < len; i++) {
@@ -76,7 +89,8 @@ module.exports = {
     //result：[{b:2},{b:3},{b:9},{b:2},{b:5}]
     filterOptionArray(arr, keys) {
         let newArr = [];
-        let _keys = keys.split(','), newArrOne = {};
+        let _keys = keys.split(','),
+            newArrOne = {};
         for (let i = 0, len = arr.length; i < len; i++) {
             newArrOne = {};
             for (let key in arr[i]) {
@@ -92,7 +106,8 @@ module.exports = {
 
     //数组扁平化
     steamroller(arr) {
-        let newArr = [], _this = this;
+        let newArr = [],
+            _this = this;
         for (let i = 0; i < arr.length; i++) {
             if (Array.isArray(arr[i])) {
                 // 如果是数组，调用(递归)steamroller 将其扁平化
@@ -156,7 +171,8 @@ module.exports = {
     //传参（rank=3，ranktype=1），只返回出现次数排序（升序）前三的
     //result：[{"el":"6","count":1},{"el":"5","count":1},{"el":"4","count":1}]
     getCount(arr, rank, ranktype) {
-        let obj = {}, k, arr1 = []
+        let obj = {},
+            k, arr1 = []
         //记录每一元素出现的次数
         for (let i = 0, len = arr.length; i < len; i++) {
             k = arr[i];
@@ -168,7 +184,10 @@ module.exports = {
         }
         //保存结果{el-'元素'，count-出现次数}
         for (let o in obj) {
-            arr1.push({ el: o, count: obj[o] });
+            arr1.push({
+                el: o,
+                count: obj[o]
+            });
         }
         //排序（降序）
         arr1.sort(function (n1, n2) {
@@ -196,7 +215,7 @@ module.exports = {
 
     //去除空格
     //  type 1-所有空格  2-前后空格  3-前空格 4-后空格
-    trim(str, type = 1) {
+    trimBox(str, type = 1) {
         switch (type) {
             case 1:
                 return str.replace(/\s+/g, "");
@@ -209,6 +228,30 @@ module.exports = {
             default:
                 return str;
         }
+    },
+    /**
+     * @description 清除左右空格
+     */
+    trim(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    },
+    /**
+     * @description 清除所有空格
+     */
+    trimAll(str) {
+        return str.replace(/\s+/g, "");
+    },
+    /**
+     * @description 清除左空格
+     */
+    trimLeft(str) {
+        return str.replace(/(^\s*)/g, "");
+    },
+    /**
+     * @description 清除右空格
+     */
+    trimRight(str) {
+        return str.replace(/(\s*$)/g, "");
     },
 
     /*type
@@ -270,6 +313,18 @@ module.exports = {
     // param {Array} regArr-数据格式
     // param {Int} type-替换方式，(0-前面 1-后面)
     // param {String} ARepText-替换的字符，默认是‘*’
+
+    // encryptStr('18819322663',[3,5,3],0,'+')
+    // //result：188+++++663
+
+    // encryptStr('18819233362',[3,5,3],1,'+')
+    // //result：+++19233+++
+
+    // encryptStr('18819233362',[5],0)
+    // //result：*****233362
+    
+    // encryptStr('18819233362',[5],1)
+    // //result："188192*****"
     encryptStr(str, regArr, type = 0, ARepText = '*') {
         let regtext = '',
             Reg = null,
@@ -331,18 +386,18 @@ module.exports = {
 
     /********Object类**********************************************************************************/
 
-    
+
     //深拷贝对象
     deepCopyObj(obj) {
         return JSON.parse(JSON.stringify(obj));
     },
 
     //数据类型判断
-    //istype([],'array')
+    //isType([],'array')
     //true
-    //istype([])
+    //isType([])
     //'[object Array]'
-    istype(o, type) {
+    isType(o, type) {
         switch (type.toLowerCase()) {
             case 'string':
                 return Object.prototype.toString.call(o) === '[object String]';
@@ -372,14 +427,25 @@ module.exports = {
     //截取Object.prototype.toString具体值
     getType(a) {
         var typeArray = Object.prototype.toString.call(a).split(" ");
-        return typeArray[1].slice(0, this.length-1);
+        return typeArray[1].slice(0, this.length - 1);
+    },
+
+    //清除对象中值为空的属性
+    filterParams(obj) {
+        let _newPar = {};
+        for (let key in obj) {
+            if ((obj[key] === 0 || obj[key] === false || obj[key]) && obj[key].toString().replace(/(^\s*)|(\s*$)/g, '') !== '') {
+                _newPar[key] = obj[key];
+            }
+        }
+        return _newPar;
     },
 
 
 
     /********Url类**********************************************************************************/
 
-    
+
     //获取url参数
     //getUrlPrmt('segmentfault.com/write?draftId=122000011938') //{draftId: "122000011938"}
     getUrlPrmt(url) {
