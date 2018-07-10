@@ -253,4 +253,14 @@ module.exports = {
         return Math.ceil(numdays / 7);
     },
 
+    //获取两个时间段差多久
+    checkTime(t1){
+        let timestamp1 = new Date(Number(t1)),
+            timestamp2 = new Date();
+        let date = timestamp1.getTime() - timestamp2.getTime();
+        return date > 0 ? false :true;
+        // 如果相减大于0，则1比2时间大（晚）//已结束
+        // 如果相减小于0，则1比2时间小（早）//未结束
+    }, 
+
 }
