@@ -426,6 +426,9 @@ module.exports = {
 
     //截取Object.prototype.toString具体值
     getType(a) {
+        // 方法1:
+        // return Object.prototype.toString.call(a).slice(8, -1)
+        // 方法2:
         var typeArray = Object.prototype.toString.call(a).split(" ");
         return typeArray[1].slice(0, this.length - 1);
     },
