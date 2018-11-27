@@ -140,7 +140,26 @@ module.exports = {
         return platform;
     },
 
-    isIphoneX () {
+    //判断各个平台浏览器及操作系统平台
+    checkPlatform() {
+        if (/android/i.test(navigator.userAgent)) {
+            return 'Android'//这是Android平台下浏览器
+        }
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            return 'iOS'//这是iOS平台下浏览器
+        }
+        if (/Linux/i.test(navigator.userAgent)) {
+            return 'Linux'//这是Linux平台下浏览器
+        }
+        if (/Linux/i.test(navigator.platform)) {
+            return 'Linux system'//这是Linux操作系统平台
+        }
+        if (/MicroMessenger/i.test(navigator.userAgent)) {
+            return 'Weixin'//这是微信平台下浏览器
+        }
+    },
+
+    isIphoneX() {
         return /iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
     },
 }
