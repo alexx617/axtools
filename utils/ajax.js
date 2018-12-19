@@ -1,12 +1,13 @@
 module.exports = {
     /* 封装ajax函数
-         * @param {string}obj.type http连接的方式，包括POST和GET两种方式
-         * @param {string}obj.url 发送请求的url
-         * @param {boolean}obj.async 是否为异步请求，true为异步的，false为同步的
-         * @param {object}obj.data 发送的参数，格式为对象类型
-         * @param {function}obj.success ajax发送并接收成功调用的回调函数
-         * @param {function}obj.error ajax发送失败或者接收失败调用的回调函数
-         */
+    * @param {string}obj.type http连接的方式，包括POST和GET两种方式
+    * @param {string}obj.url 发送请求的url
+    * @param {boolean}obj.async 是否为异步请求，true为异步的，false为同步的
+    * @param {object}obj.data 发送的参数，格式为对象类型
+    * @param {function}obj.success ajax发送并接收成功调用的回调函数
+    * @param {function}obj.error ajax发送失败或者接收失败调用的回调函数
+    */
+    // 使用:
     //  ajax({
     //  	type:'get',
     //  	url:'xxx',
@@ -85,10 +86,10 @@ module.exports = {
 
 
     /**
- * @param  {url}
- * @param  {setting}
- * @return {Promise}
- */
+     * @param  {url}
+     * @param  {setting}
+     * @return {Promise}
+     */
     fetch(url, setting) {
         //设置参数的初始值
         let opts = {
@@ -127,6 +128,47 @@ module.exports = {
                 reject(e)
             })
         })
+    },
 
+
+    // 使用:
+    // jsonp({
+    //     url:'http://localhost:3000/api',//请求地址
+    //     parames: {//请求参数，对象
+    //          id: 1
+    //     },
+    //     success:function (res) {//成功回调
+    //         console.log(res)
+    //     }
+    // })
+    jsonp(obj) {
+        //写入url地址中的函数名称，动态创建
+        var callbackName = 'jsonp_callback_' + Date.now() + Math.random().toString().substr(2, 5);
+        //创建一个script标签
+        var scriptObj = document.createElement("script");
+        
+        obj.parames = obj.parames || '';
+        if (typeof obj.parames == 'object') {
+            var arr = new Array();
+            for (var key in obj.parames) {
+                arr.push(key + '=' + obj.parames[key])
+            }
+            obj.parames = arr.join('&');
+        }
+        //设置标签的请求路径：http://localhost:3000/api?callback=jsonp_callback_153498520409635392&id=1
+        scriptObj.src = obj.url + '?' + 'callback=' + callbackName + '&' + obj.parames;
+
+        //将创建好的带请求的script标签添加到html的body中
+        document.body.appendChild(scriptObj);
+
+        //这里必须这样写window[callbackName];
+        //如果写window.callbackName会报错没有定义
+        window[callbackName] = function (res) {
+            obj.success(res);
+            //由于请求一次会创建一个script标签和一个函数，所以每次获取到结果后就删除
+            delete window.callbackName;
+            document.body.removeChild(scriptObj);
+        }
     }
+
 }
