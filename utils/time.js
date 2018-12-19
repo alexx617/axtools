@@ -179,7 +179,7 @@ module.exports = {
         return date;
     },
 
-    //到某一个时间的倒计时
+    //到某一个时间的倒计时,现在距${endTime}的剩余时间
     //getEndTime('2017/7/22 16:0:0')
     //result："剩余时间6天 2小时 28 分钟20 秒"
     getEndTime(endTime) {

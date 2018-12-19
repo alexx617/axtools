@@ -32,6 +32,23 @@ module.exports = {
         return arr;
     },
 
+    /**
+     * 
+     * @desc 判断两个数组是否相等
+     * @param {Array} arr1 
+     * @param {Array} arr2 
+     * @return {Boolean}
+     */
+    arrayEqual(arr1, arr2) {
+        if (arr1 === arr2) return true;
+        if (arr1.length != arr2.length) return false;
+        for (var i = 0; i < arr1.length; ++i) {
+            if (arr1[i] !== arr2[i]) return false;
+        }
+        return true;
+    },
+
+
     //得到n1-n2下标的数组
     //getArrayNum([0,1,2,3,4,5,6,7,8,9],5,9)
     //result：[5, 6, 7, 8, 9]
@@ -392,6 +409,38 @@ module.exports = {
         return JSON.parse(JSON.stringify(obj));
     },
 
+    // 深拷贝2,对 JavaScript 中的5种主要的数据类型（包括 Number、String、Object、Array、Boolean）进行值复制。
+    clone(obj) {
+        //判断是对象，就进行循环复制
+        if (typeof obj === 'object' && typeof obj !== 'null') {
+            // 区分是数组还是对象，创建空的数组或对象
+            var o = Object.prototype.toString.call(obj).slice(8, -1) === "Array" ? [] : {};
+            for (var k in obj) {
+                // 如果属性对应的值为对象，则递归复制
+                if (typeof obj[k] === 'object' && typeof obj[k] !== 'null') {
+                    o[k] = clone(obj[k])
+                } else {
+                    o[k] = obj[k];
+                }
+            }
+        } else { //不为对象，直接把值返回
+            return obj;
+        }
+        return o;
+    },
+
+    /**
+     * 
+     * @desc   判断`obj`是否为空
+     * @param  {Object} obj
+     * @return {Boolean}
+     */
+    isEmptyObject(obj) {
+        if (!obj || typeof obj !== 'object' || Array.isArray(obj))
+            return false
+        return !Object.keys(obj).length
+    },
+
     //数据类型判断
     //isType([],'array')
     //true
@@ -442,26 +491,6 @@ module.exports = {
             }
         }
         return _newPar;
-    },
-
-    // 对 JavaScript 中的5种主要的数据类型（包括 Number、String、Object、Array、Boolean）进行值复制。
-    clone(obj) {
-        //判断是对象，就进行循环复制
-        if (typeof obj === 'object' && typeof obj !== 'null') {
-            // 区分是数组还是对象，创建空的数组或对象
-            var o = Object.prototype.toString.call(obj).slice(8, -1) === "Array" ? [] : {};
-            for (var k in obj) {
-                // 如果属性对应的值为对象，则递归复制
-                if(typeof obj[k] === 'object' && typeof obj[k] !== 'null'){
-                    o[k] = clone(obj[k])
-                }else{
-                    o[k] = obj[k];
-                }
-            }
-        }else{ //不为对象，直接把值返回
-            return obj;
-        }
-        return o;
     },
 
 
