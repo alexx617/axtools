@@ -94,7 +94,7 @@ export default {
         //设置参数的初始值
         let opts = {
             method: (setting.method || 'GET').toUpperCase(), //请求方式
-            headers: setting.headers || {}, // 请求头设置
+            headers: setting.headers || { 'Content-Type': 'application/json' }, // 请求头设置
             credentials: setting.credentials || true, // 设置cookie是否一起发送
             body: setting.body || {},
             mode: setting.mode || 'no-cors', // 可以设置 cors, no-cors, same-origin
