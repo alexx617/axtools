@@ -1,12 +1,14 @@
-const ajax = require('./min/ajax.min.js');
-const check = require('./min/check.min.js');
-const dom = require('./min/dom.min.js');
-const money = require('./min/money.min.js');
-const other = require('./min/other.min.js');
-const { storage } = require('./min/storage.min.js');
-const time = require('./min/time.min.js');
-const ua = require('./min/ua.min.js');
-const utils = require('./min/utils.min.js');
+import ajax from './min/ajax.min.js'
+import check from './min/check.min.js'
+import dom from './min/dom.min.js'
+import money from './min/money.min.js'
+import other from './min/other.min.js'
+import { storage } from './min/storage.min.js'
+import time from './min/time.min.js'
+import ua from './min/ua.min.js'
+import array from './min/array.min.js'
+import object from './min/object.min.js'
+import url from './min/url.min.js'
 
 export {
     ajax,
@@ -17,5 +19,21 @@ export {
     storage,
     time,
     ua,
-    utils
+    array,
+    object,
+    url,
 };
+
+export default {
+    ajax,
+    check,
+    dom,
+    money,
+    other,
+    storage,
+    time,
+    ua,
+    array,
+    object,
+    url,
+}

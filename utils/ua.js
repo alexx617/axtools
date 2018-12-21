@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     //UA库
 
     // 选择符合条件的一个,ua函数使用的

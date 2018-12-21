@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     //校验库
 
     //检测字符串是否符合验证规则

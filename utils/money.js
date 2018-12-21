@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     // 金钱库
 
     // 金钱千位分隔符插入函数

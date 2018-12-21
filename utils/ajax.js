@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     /* 封装ajax函数
     * @param {string}obj.type http连接的方式，包括POST和GET两种方式
     * @param {string}obj.url 发送请求的url
