@@ -162,4 +162,31 @@ export default {
     isIphoneX() {
         return /iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
     },
+
+    /**
+     *  判断版本号
+     *  compareVersions('1.2.0', '==', '1.2'); // true
+        compareVersions('00001', '==', '1.0.0'); // true
+        compareVersions('1.2.0', '<=', '1.2'); // true
+        compareVersions('2.2.0', '<=', '1.2'); // false
+     */
+    compareVersions(v1, comparator, v2) {
+        var comparator = comparator == '=' ? '==' : comparator;
+        if (['==', '===', '<', '<=', '>', '>=', '!=', '!=='].indexOf(comparator) == -1) {
+            throw new Error('Invalid comparator. ' + comparator);
+        }
+        var v1parts = v1.split('.'), v2parts = v2.split('.');
+        var maxLen = Math.max(v1parts.length, v2parts.length);
+        var part1, part2;
+        var cmp = 0;
+        for (var i = 0; i < maxLen && !cmp; i++) {
+            part1 = parseInt(v1parts[i], 10) || 0;
+            part2 = parseInt(v2parts[i], 10) || 0;
+            if (part1 < part2)
+                cmp = 1;
+            if (part1 > part2)
+                cmp = -1;
+        }
+        return eval('0' + comparator + cmp);
+    }
 }
