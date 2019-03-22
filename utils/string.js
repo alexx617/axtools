@@ -180,5 +180,14 @@ export default {
         return rdmString.substr(0, len);
     },
 
+    // 空字符串''、null和undefined，认为是空值，0和false不是
+    isEmptyValue(value) {
+        if (value === '' || value === null || value === undefined) {
+            return true
+        } else {
+            return false
+        }
+    }
+
 
 }

@@ -306,6 +306,38 @@ export default {
         let re = /\d{1,3}(?=(\d{3})+$)/g
         let n1 = s.replace(/^(\d+)((\.\d+)?)$/, function (s, s1, s2) { return s1.replace(re, '$&,') + s2 })
         return n1
+    },
+
+    /**
+   * 将xxxxx.xx元格式化成x.xx万元
+   * @param {Number} num number
+   * @param {String} unit unit
+   * @return {String} 格式化后的数据
+   */
+    formatCapital(num, unit) {
+        unit = unit || ''
+        /**
+         * xxxxxxx -> x,xxx,xxx
+         * @param {Number} num num
+         * @return {String} 格式化后数据
+         */
+        function format(num) {
+            return (num.toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,')
+        }
+        if (parseFloat(num) === 0) {
+            return '未公布'
+        }
+        if (isNaN(num)) {
+            return '--'
+        }
+        if (num) {
+            if (num < 10000) {
+                return format(parseFloat(num)) + unit
+            }
+            return format(num / 10000) + ' 万' + unit
+        }
+
+        return '--'
     }
 
 }

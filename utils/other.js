@@ -337,5 +337,15 @@ export default {
         a.setAttribute('href', href);
         a.setAttribute('download', title);
         a.click();
+    },
+
+    /**
+     * @desc 对敏感字符逗号、尖括号进行转义,防止js注入
+     * @param v { String } <script>alert("1")</script> 
+     * */
+    escapeValue(value) {
+        var entry = { "'": "&apos;", '"': '&quot;', '<': '&lt;', '>': '&gt;' };
+        value = value.replace(/(['")-><&\\\/\.])/g, function ($0) { return entry[$0] || $0; });
+        return value;
     }
 }
