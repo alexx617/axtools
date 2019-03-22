@@ -119,6 +119,25 @@ export default {
             }
         }
         return true;
+    },
+    // 对象的值是否相等
+    isObjectValueEqual2(obj1, obj2) {
+        let o1 = obj1 instanceof Object;
+        let o2 = obj2 instanceof Object;
+        if (!o1 || !o2) {
+            return obj1 === obj2;
+        }
+        if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+        for (let attr in obj1) {
+            let t1 = obj1[attr] instanceof Object;
+            let t2 = obj2[attr] instanceof Object;
+            if (t1 && t2) {
+                return isObjectValueEqual(obj1[attr], obj2[attr]);
+            } else if (obj1[attr] !== obj2[attr]) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
