@@ -34,6 +34,11 @@ export default {
         }
         return obj
     },
+    //获取地址栏所有查询参数,解析成json对象
+    getUrlPrmt2() {
+       let q = {}; location.search.replace(/([^?&=]+)=([^&]+)/g, (_, k, v) => q[k] = v); q;
+       return q;
+    },
 
     //获取地址栏某一个查询参数
     getQuery(name) {
