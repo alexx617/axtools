@@ -203,7 +203,7 @@ export default {
     * @param {Function} downCb 当软键盘弹起后，缩回的回调
     * @param {Function} upCb 当软键盘弹起的回调
     */
-    softKeyCal = (downCb, upCb) => {
+    softKeyCal(downCb, upCb) {
         let clientHeight = window.innerHeight;
         downCb = Object.prototype.toString.call(downCb).slice(8, -1) === 'Function' ? downCb : function () { }
         upCb = Object.prototype.toString.call(upCb).slice(8, -1) === 'Function' ? upCb : function () { }
