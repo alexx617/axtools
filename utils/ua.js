@@ -213,7 +213,19 @@ export default {
         }
 
         return 0;
-    }
+    },
+    // 判断是IOS还是Android
+    checkAgent() {
+        var u = navigator.userAgent,
+            Agent = '';
 
-    
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid) {
+            Agent = 'Android';
+        } else if (isiOS) {
+            Agent = 'IOS';
+        }
+        return Agent;
+    }
 }

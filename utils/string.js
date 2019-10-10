@@ -187,7 +187,26 @@ export default {
         } else {
             return false
         }
+    },
+    findMaxStr(str) {
+        let o = {};
+        for (let char of str) {
+            if (o[char]) { //char就是对象o的一个属性，o[char]是属性值，o[char]控制出现的次数
+                o[char]++; //次数加1
+            } else {
+                o[char] = 1; //若第一次出现，次数记为1
+            }
+        }
+        console.log(o); //输出的是完整的对象，记录着每一个字符及其出现的次数
+        //遍历对象，找到出现次数最多的字符和次数
+        let max = 0;
+        let maxChar = null;
+        for (let key in o) {
+            if (max < o[key]) {
+                max = o[key]; //max始终储存次数最大的那个
+                maxChar = key; //那么对应的字符就是当前的key
+            }
+        }
+        return `"最多的字符是${maxChar},出现的次数是${max}`;
     }
-
-
 }

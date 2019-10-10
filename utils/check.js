@@ -7,9 +7,9 @@ export default {
 
     // 添加自定义规则
     //checkType.addRule('password', str => {
-	// 	return /^[-a-zA-Z0-9._]+$/.test(str);
-	//})
-	//console.log(checkType.check('123123', 'password'));
+    // 	return /^[-a-zA-Z0-9._]+$/.test(str);
+    //})
+    //console.log(checkType.check('123123', 'password'));
     //result：true
     checkType: (() => {
         let rules = {
@@ -66,6 +66,9 @@ export default {
             },
             url(str) {//URL地址
                 return /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i.test(str);
+            },
+            trimLeOrRi(str) { //删除左右两端的空格
+                return str.replace(/(^s)|(s$)/g, "");
             }
         }
         return {

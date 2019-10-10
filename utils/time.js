@@ -36,15 +36,15 @@ export default {
     },
 
     //时间戳转时间,这是另一种方式 2018-07-09 11:04:51
-    timetrans(date){
-        var date = new Date(date*1000);//如果date为10位不需要乘1000
+    timetrans(date) {
+        var date = new Date(date * 1000);//如果date为10位不需要乘1000
         var Y = date.getFullYear() + '-';
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
         var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
         var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-        var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-        var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
-        return Y+M+D+h+m+s;
+        var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+        return Y + M + D + h + m + s;
     },
 
     //将一个日期格式化成友好格式，比如，1分钟以内的返回“刚刚”，当天的返回时分，当年的返回月日，否则，返回年月日
@@ -254,24 +254,34 @@ export default {
     },
 
     //获取两个时间段差多久
-    timeFn(time,fmt = 1) {//di作为一个变量传进来
+    timeFn(time, fmt = 1) {//di作为一个变量传进来
         //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
         var dateBegin = new Date(time.replace(/-/g, "/"));//将-转化为/，使用new Date
         var dateEnd = new Date();//获取当前时间
         var dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
         var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
-        var leave1=dateDiff%(24*3600*1000)    //计算天数后剩余的毫秒数
-        var hours=Math.floor(leave1/(3600*1000))//计算出小时数
+        var leave1 = dateDiff % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数
+        var hours = Math.floor(leave1 / (3600 * 1000))//计算出小时数
         //计算相差分钟数
-        var leave2=leave1%(3600*1000)    //计算小时数后剩余的毫秒数
-        var minutes=Math.floor(leave2/(60*1000))//计算相差分钟数
+        var leave2 = leave1 % (3600 * 1000)    //计算小时数后剩余的毫秒数
+        var minutes = Math.floor(leave2 / (60 * 1000))//计算相差分钟数
         //计算相差秒数
-        var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-        var seconds=Math.round(leave3/1000)
-        if(fmt){
+        var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数
+        var seconds = Math.round(leave3 / 1000)
+        if (fmt) {
             return `相差${dayDiff}天${hours}小时${minutes}分钟${seconds}秒`
         }
         return `${dateDiff}时间差的毫秒数,${dayDiff}计算出相差天数,${leave1}计算天数后剩余的毫秒数,${hours}计算出小时数,${minutes}计算相差分钟数,${seconds}计算相差秒数`
+    },
+
+    // 计算两个日期格式为(yyyy- MM - dd) 相差几个月
+    disparityFewMonth(dateOne, dateTwo) {
+        let datesOne = dateOne.split('-').map(item => Number(item));
+        let datesTwo = dateTwo.split('-').map(item => Number(item));
+        const diff = [0, 0, 0].map((value, index) => {
+            return datesOne[index] - datesTwo[index]
+        });
+        return (diff[0] * 12 + diff[1]) + '月' + diff[2] + '天'
     }
 
 }
