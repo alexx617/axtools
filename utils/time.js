@@ -192,7 +192,7 @@ export default {
             s = 0;
         if (t >= 0) {
             d = Math.floor(t / 1000 / 3600 / 24);
-            h = Math.floor(t / 1000 / 60 / 60 % 24);
+            h = Math.floor(t / 1000 / 60 / 60 % 24);//h = Math.floor(t / 1000 / 60 / 60);不显示天数的话使用这个
             m = Math.floor(t / 1000 / 60 % 60);
             s = Math.floor(t / 1000 % 60);
         }
