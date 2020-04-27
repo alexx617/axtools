@@ -287,6 +287,36 @@ export default {
             return datesOne[index] - datesTwo[index]
         });
         return (diff[0] * 12 + diff[1]) + '月' + diff[2] + '天'
+    },
+
+    //time 秒数 => 4 =>4秒
+    //根据返回的秒数计算时间 =>86400 =>返回1天 
+    averageTime(time) {
+        if (time == 0) return '-';
+        let offset = Number(time);
+        let seconds = 60;//秒
+        let minutes = seconds * 60;//小时
+        let days = minutes * 24;//天86400
+        let t;
+
+        if (offset < seconds) {
+            t = offset;
+            return t + '秒';
+        } else if (offset < minutes) {
+            t = Math.round(offset / seconds);
+            return t + '分钟';
+        } else if (offset < days) {
+            t = offset / minutes;
+            if (t.toString().indexOf('.') !== -1) {
+                t = t.toFixed(1)
+            } else {
+                t = parseInt(t)
+            }
+            return t + '小时';
+        } else if (offset >= days) {
+            t = Math.round(offset / days);
+            return t + '天';
+        }
     }
 
 }
