@@ -1,128 +1,79 @@
-class StorageFn {
-    constructor() {
-        this.ls = window.localStorage;
-        this.ss = window.sessionStorage;
-    }
-
-    /*-----------------cookie---------------------*/
-    /*设置cookie*/
-    setCookie(name, value, day) {
-        var setting = arguments[0];
-        if (Object.prototype.toString.call(setting).slice(8, -1) === 'Object') {
-            for (var i in setting) {
-                var oDate = new Date();
-                oDate.setDate(oDate.getDate() + day);
-                document.cookie = i + '=' + setting[i] + ';expires=' + oDate;
-            }
-        } else {
-            var oDate = new Date();
-            oDate.setDate(oDate.getDate() + day);
-            document.cookie = name + '=' + value + ';expires=' + oDate;
-        }
-
-    }
-
-    /*获取cookie*/
-    getCookie(name) {
-        var arr = document.cookie.split('; ');
-        for (var i = 0; i < arr.length; i++) {
-            var arr2 = arr[i].split('=');
-            if (arr2[0] == name) {
-                return arr2[1];
-            }
-        }
-        return '';
-    }
-
-    /*删除cookie*/
-    removeCookie(name) {
-        this.setCookie(name, 1, -1);
-    }
-
-
+export default {
+    // localStorage 存贮
+    localStorageSet = (key, value) => {
+        if (typeof (value) === 'object') value = JSON.stringify(value);
+        localStorage.setItem(key, value)
+    },
+    //localStorage 获取
+    localStorageGet = (key) => {
+        return localStorage.getItem(key)
+    },
+    // localStorage 移除
+    localStorageRemove = (key) => {
+        localStorage.removeItem(key)
+    },
+    //localStorage 存贮某一段时间失效
+    localStorageSetExpire = (key, value, expire) => {
+        if (typeof (value) === 'object') value = JSON.stringify(value);
+        localStorage.setItem(key, value);
+        setTimeout(() => {
+            localStorage.removeItem(key)
+        }, expire)
+    },
+    // sessionStorage 存贮
+    sessionStorageSet = (key, value) => {
+        if (typeof (value) === 'object') value = JSON.stringify(value);
+        sessionStorage.setItem(key, value)
+    },
+    // sessionStorage 获取
+    sessionStorageGet = (key) => {
+        return sessionStorage.getItem(key)
+    },
+    // sessionStorage 删除
+    sessionStorageRemove = (key) => {
+        sessionStorage.removeItem(key)
+    },
+    // sessionStorage 存贮某一段时间失效
     /**
-     * @description 操作cookie(将上面3个API合并成一个API)
-     * @param name cookie名称
-     * @param value 值
-     * @param iDay 有效时间（天数）
-     * 调用:
-     *  cookie(cookieName,'守候',1)//设置
-        cookie(cookieName)//获取
-        cookie(cookieName,'守候',-1)//删除(中间的值没有意义了，只要cookie天数设置了-1，就会删除。)
+     * @param {String} expire 过期时间,毫秒数
      */
-    cookie(name, value, iDay) {
-        if (arguments.length === 1) {
-            return this.getCookie(name);
-        } else {
-            this.setCookie(name, value, iDay);
-        }
-    }
+    sessionStorageSetExpire = (key, value, expire) => {
+        if (typeof (value) === 'object') value = JSON.stringify(value);
+        sessionStorage.setItem(key, value);
+        setTimeout(() => {
+            sessionStorage.removeItem(key)
+        }, expire)
+    },
+    // cookie 存贮
+    /**
+     * @param {String} key  属性
+     * @param {*} value  值
+     * @param { String } expire  过期时间,单位天
+     */
+    cookieSet = (key, value, expire) => {
+        const d = new Date();
+        d.setDate(d.getDate() + expire);
+        document.cookie = `${key}=${value};expires=${d.toUTCString()}`
+    },
 
-
-    /*-----------------localStorage---------------------*/
-    /*设置localStorage*/
-    setLocal(key, val) {
-        var setting = arguments[0];
-        if (Object.prototype.toString.call(setting).slice(8, -1) === 'Object') {
-            for (var i in setting) {
-                this.ls.setItem(i, JSON.stringify(setting[i]))
+    // cookie 获取
+    cookieGet = (key) => {
+        const cookieStr = unescape(document.cookie);
+        const arr = cookieStr.split('; ');
+        let cookieValue = '';
+        for (let i = 0; i < arr.length; i++) {
+            const temp = arr[i].split('=');
+            if (temp[0] === key) {
+                cookieValue = temp[1];
+                break
             }
-        } else {
-            this.ls.setItem(key, JSON.stringify(val))
         }
+        return cookieValue
+    },
 
-    }
-
-    /*获取localStorage*/
-    getLocal(key) {
-        if (key) return JSON.parse(this.ls.getItem(key))
-        return null;
-
-    }
-
-    /*移除localStorage*/
-    removeLocal(key) {
-        this.ls.removeItem(key)
-    }
-
-    /*移除所有localStorage*/
-    clearLocal() {
-        this.ls.clear()
-    }
-
-
-    /*-----------------sessionStorage---------------------*/
-    /*设置sessionStorage*/
-    setSession(key, val) {
-        var setting = arguments[0];
-        if (Object.prototype.toString.call(setting).slice(8, -1) === 'Object') {
-            for (var i in setting) {
-                this.ss.setItem(i, JSON.stringify(setting[i]))
-            }
-        } else {
-            this.ss.setItem(key, JSON.stringify(val))
-        }
-
-    }
-
-    /*获取sessionStorage*/
-    getSession(key) {
-        if (key) return JSON.parse(this.ss.getItem(key))
-        return null;
-
-    }
-
-    /*移除sessionStorage*/
-    removeSession(key) {
-        this.ss.removeItem(key)
-    }
-
-    /*移除所有sessionStorage*/
-    clearSession() {
-        this.ss.clear()
-    }
-
+    // cookie 删除
+    cookieRemove = (key) => {
+        document.cookie = `${encodeURIComponent(key)}=;expires=${new Date()}`
+    },
 
 }
-
-export var storage = new StorageFn();

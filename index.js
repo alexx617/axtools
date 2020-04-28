@@ -9,6 +9,7 @@ import ua from './min/ua.min.js'
 import array from './min/array.min.js'
 import object from './min/object.min.js'
 import url from './min/url.min.js'
+import win from './min/win.min.js'
 
 export {
     ajax,
@@ -22,6 +23,7 @@ export {
     array,
     object,
     url,
+    win
 };
 
 export default {
@@ -36,4 +38,5 @@ export default {
     array,
     object,
     url,
+    win
 }
