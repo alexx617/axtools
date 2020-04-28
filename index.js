@@ -10,6 +10,8 @@ import array from './min/array.min.js'
 import object from './min/object.min.js'
 import url from './min/url.min.js'
 import win from './min/win.min.js'
+import file from './min/file.min.js'
+import num from './min/num.min.js'
 
 export {
     ajax,
@@ -23,7 +25,9 @@ export {
     array,
     object,
     url,
-    win
+    win,
+    file,
+    num
 };
 
 export default {
@@ -38,5 +42,7 @@ export default {
     array,
     object,
     url,
-    win
+    win,
+    file,
+    num
 }
