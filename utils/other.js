@@ -347,5 +347,19 @@ export default {
         var entry = { "'": "&apos;", '"': '&quot;', '<': '&lt;', '>': '&gt;' };
         value = value.replace(/(['")-><&\\\/\.])/g, function ($0) { return entry[$0] || $0; });
         return value;
-    }
+    },
+    // 转义html(防XSS攻击)
+    escapeHTML = str => {
+        str.replace(
+            /[&<>'"]/g,
+            tag =>
+                ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+        );
+    },
 }

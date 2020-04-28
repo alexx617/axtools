@@ -340,7 +340,7 @@ export default {
         return '--'
     },
 
-    // 金额加小数点后两位 100.00=>100元
+    // 金额加小数点后两位 100=>100.00
     oDecimal2(data) {
         var f = parseFloat(data);
         if (isNaN(f)) {
