@@ -372,5 +372,5 @@ export default {
         } else {
             return num;
         }
-    };
+    }
 }
