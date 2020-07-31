@@ -257,7 +257,65 @@ export default {
             default:
                 return str;
         }
-    }
+    },
+    // 段落截取(适用于段落比较长,只显示段落中需要的部分,但需要的字不在头部的情况,需要把头部或者尾部截取成省略号,需要高亮的话需配合hightLight使用)
+    // searchText => 需要搜索的字
+    // list => 段落
+    // maxLength => 显示范围(截取段落的长度,如果段落超过了这个长度就截取段落)
+    // num => 写死-1(目的是重置)
+    // set_hightLight => 是否需要高亮字体
+    stringDotRep(searchText, list, maxLength, num, set_hightLight) {
+        let searchText_ = searchText.toLowerCase().trim();
+        let list_ = list.toLowerCase();
+        if (num >= 0) {
+            let searchText_arr = searchText.split('');
+            searchText_ = searchText_arr[num];
+        }
+        let res = '';
+        let idx = list_.indexOf(searchText_);
+        if (idx !== -1) {
+            if (list.length <= maxLength || idx <= maxLength) {//如果小于的话直接展示
+                if (set_hightLight) {
+                    return this.hightLight(list, searchText)
+                }
+                return list
+            } else if (idx > maxLength) {//如果匹配的字大于显示范围
+                let idx_last = list.lastIndexOf(searchText);//是否在尾部22个之内
+                let last = list.length - idx_last;//在尾部的位置
+                if (last <= maxLength) {
+                    let length_ = list.length;
+                    res = list.slice(length_ - maxLength, list.length);
+                }
+                if ((idx > maxLength) && (last > maxLength)) {
+                    res = list.slice(idx - 1, list.length);
+                }
+                if (set_hightLight) {
+                    return `...${this.hightLight(res, searchText)}`
+                }
+                return `...${res}`
+            }
+        } else {
+            num++;//没查到就自增
+            return this.stringDotRep(searchText, list, maxLength, num, set_hightLight);
+        }
+    },
+
+    // 字体高亮(适用于查找到响应的结果)
+    // desc => 段落
+    // replaceStr => 需要高亮的字
+    hightLight(desc, replaceStr) {
+        if (desc.match(new RegExp(replaceStr, 'ig'))) {
+            return desc.replace(new RegExp(replaceStr, 'ig'), '<span style="color:#297CE6;">' + replaceStr + '</span>');
+        }
+        let arr = Array.from(desc);
+        for (let i = 0; i < arr.length; i++) {
+            let keys = Array.from(replaceStr.toLowerCase());
+            if (keys.indexOf(arr[i].toLowerCase()) >= 0) {
+                arr[i] = arr[i].replace(arr[i], '<span style="color:#297CE6;">' + arr[i] + '</span>');
+            }
+        }
+        return arr.join('');
+    },
 
 
 }
