@@ -361,12 +361,12 @@ export default {
     // 金额大于1万,单位变万,取2位小数(不四舍五入)
     numProcessing(num) {
         let resultNum = 0;
-        if (num > 10000) {
+        if (num >= 10000) {
             let newNum = (num / 10000).toString();
             if (newNum.indexOf(".") != -1) {
                 resultNum = newNum.substring(0, newNum.lastIndexOf('.') + 3);
             } else {
-                resultNum = newNum;
+                resultNum = newNum + '.00';
             }
             return resultNum + "万";
         } else {
