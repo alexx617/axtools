@@ -362,4 +362,115 @@ export default {
                 }[tag] || tag)
         );
     },
+    /**
+	   * @description 根据图片宽高计算显示样式PC用
+	   * @param w {number}图片宽度
+	   * @param h {number}图片高度
+	   */
+    calculateImageSizePC(w, h) {
+        // 避免小于框的最小值
+        if (h < 80 || w < 110) {
+            let ratew = Math.ceil(110 / w);
+            let rateH = Math.ceil(80 / h);
+            let rate = Math.max(ratew, rateH);
+
+            w = w * rate;
+            h = h * rate;
+        }
+        let rate = w / h;
+        let style = {};
+        let max = 320;
+
+        //大于1 横图
+        if (rate >= 1) {
+            if (w <= max) {
+                style.width = w + 'px';
+                style.height = h + 'px';
+            } else {
+                style.width = max + 'px';
+                style.height = max / rate + 'px';
+            }
+        } else {
+            if (h <= max) {
+                style.width = w + 'px';
+                style.height = h + 'px';
+            } else {
+                style.height = max + 'px';
+                style.width = max * rate + 'px';
+            }
+        }
+
+        return style;
+    },
+
+    /**
+     * @description 根据图片宽高计算显示样式H5用
+     * @param w {number}图片宽度
+     * @param h {number}图片高度
+     */
+    calculateImageSizeH5(w, h) {
+        // 避免小于消息框的最小值
+        if (h < 80 || w < 110) {
+            let ratew = Math.ceil(110 / w);
+            let rateH = Math.ceil(80 / h);
+            let rate = Math.max(ratew, rateH);
+
+            w = w * rate;
+            h = h * rate;
+        }
+
+        let rate = w / h;
+        let style = {};
+
+        //大于1 横图
+        if (rate >= 1) {
+            if (w <= 286) {
+                style.width = w / 75 + 'rem';
+                style.height = h / 75 + 'rem';
+            } else {
+                style.width = 286 / 75 + 'rem';
+                style.height = (286 / 75) / rate + 'rem';
+            }
+        } else {
+            if (h <= 286) {
+                style.width = w / 75 + 'rem';
+                style.height = h / 75 + 'rem';
+            } else {
+                style.height = 286 / 75 + 'rem';
+                style.width = (286 / 75) * rate + 'rem';
+            }
+        }
+
+        return style;
+    },
+    // 设置请求图片大小
+    setSize(url = '', type = 'auto') {
+        function isImage(str) {
+            let reg = /\.(png|jpg|gif|jpeg)$/;
+            return reg.test(str.toLowerCase());
+        }
+        let type_ = {
+            head: '?w=70&h=70',
+            head_mini: '?w=35&h=35',
+            product: '?w=210&h=210',
+            product_mini: '?w=100&h=100',
+            product_big: '?w=300&h=300',
+            auto: ''
+        }
+        if (url) {
+            let url_ = url;
+            let n = url.lastIndexOf("?");
+            if (n != -1) {
+                url_ = url.slice(0, n);
+            }
+            if (isImage(url_)) {
+                return `${url_}${type_[type]}`//.jpg?w=36&h=36
+            } else {
+                return url_
+            }
+        } else {
+            return ''
+        }
+
+    },
 }
