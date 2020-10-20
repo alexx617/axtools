@@ -316,6 +316,15 @@ export default {
         }
         return arr.join('');
     },
+    /**
+     * 手机号隐私保护
+     * 13866668888 -> 138****8888
+     * @param {String|Number} value
+     */
+    secretPhone(value) {
+        value = value.toString()
+        return value.replace(/(\d{3})(\d{4})(\d{4})/, '$1****$3')
+    },
 
 
 }
