@@ -41,4 +41,15 @@ export default {
         return (r1 / r2) * Math.pow(10, t2 - t1);
     },
 
+    // 限制输入为数字，并且数字最多带2位小数
+    checkInputText(text){
+        var reg = /^(\.*)(\d+)(\.?)(\d{0,2}).*$/g;
+        if (reg.test(text)) { //正则匹配通过，提取有效文本
+            text = text.replace(reg, '$2$3$4');
+        }else { //正则匹配不通过，直接清空
+            text = '';
+        }
+        return text;
+    }
+
 }

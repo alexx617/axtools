@@ -317,6 +317,7 @@ export default {
             t = Math.round(offset / days);
             return t + '天';
         }
-    }
+    },
+    
 
 }
