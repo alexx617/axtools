@@ -50,6 +50,15 @@ export default {
             text = '';
         }
         return text;
+    },
+
+    // 最大值和最小值差值
+    // arr = [23, 4, 5, 2, 4, 5, 6, 6, 71, -3];
+    difference(arr) { 
+        let max = Math.max(...arr);
+        let min = Math.min(...arr);
+        return max - min ;
     }
+    
 
 }

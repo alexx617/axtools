@@ -6,10 +6,10 @@ export default {
     //result：true
 
     // 添加自定义规则
-    //checkType.addRule('password', str => {
+    //checkType.addRule('password, str => {
     // 	return /^[-a-zA-Z0-9._]+$/.test(str);
     //})
-    //console.log(checkType.check('123123', 'password'));
+    //console.log(checkType.check('123123', 'password));
     //result：true
     checkType: (() => {
         let rules = {
@@ -69,6 +69,9 @@ export default {
             },
             trimLeOrRi(str) { //删除左右两端的空格
                 return str.replace(/(^s)|(s$)/g, "");
+            },
+            checkPassword(password) { //以字母开头，可以包含字母或数字的4—10位的用户密码
+                return /^[a-zA-Z][a-zA-Z0-9]{3,9}$/.test(password);
             }
         }
         return {
