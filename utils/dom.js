@@ -216,7 +216,34 @@ export default {
                 upCb()
             }
         })
-    }
+    },
+
+    // 获得滚动条的滚动距离
+    getScrollOffset() {
+        if (window.pageXOffset) {
+            return {
+                x: window.pageXOffset,
+                y: window.pageYOffset
+            }
+        } else {
+            return {
+                x: document.body.scrollLeft + document.documentElement.scrollLeft,
+                y: document.body.scrollTop + document.documentElement.scrollTop
+            }
+        }
+    },
+
+    // 判断元素有没有子元素
+    hasChildren(e) {
+        var children = e.childNodes,
+            len = children.length;
+        for (var i = 0; i < len; i++) {
+            if (children[i].nodeType === 1) {
+                return true;
+            }
+        }
+        return false;
+    },
 
 
 }
